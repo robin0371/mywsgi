@@ -1,0 +1,1 @@
+"""mywsgi - simple wsgi implementation"""
