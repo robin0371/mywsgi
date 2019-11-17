@@ -2,3 +2,4 @@ black
 click
 mypy
 pylint
+pytest
