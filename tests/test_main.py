@@ -28,7 +28,7 @@ class TestMain:
         runner = click.testing.CliRunner()
         result = runner.invoke(main, ["my_test_mywsgi_module:app", "localhost", "8383"])
 
-        assert result.exit_code == 1
+        assert result.exit_code == 0
         mock_app_import.assert_called_once_with("my_test_mywsgi_module:app")
         assert mock_make_server.call_count == 0
         assert mock_server.serve_forever.call_count == 0
@@ -42,7 +42,7 @@ class TestMain:
         runner = click.testing.CliRunner()
         result = runner.invoke(main, ["my_test_mywsgi_module:app", "localhost", "8383"])
 
-        assert result.exit_code == 1
+        assert result.exit_code == 0
         mock_app_import.assert_called_once_with("my_test_mywsgi_module:app")
         mock_make_server.assert_called_once_with(app, "localhost", 8383)
         assert mock_server.serve_forever.call_count == 0
@@ -56,7 +56,7 @@ class TestMain:
         runner = click.testing.CliRunner()
         result = runner.invoke(main, ["my_test_mywsgi_module:app", "localhost", "8383"])
 
-        assert result.exit_code == 1
+        assert result.exit_code == 0
         mock_app_import.assert_called_once_with("my_test_mywsgi_module:app")
         mock_make_server.assert_called_once_with(app, "localhost", 8383)
         assert mock_server.serve_forever.call_count == 1
