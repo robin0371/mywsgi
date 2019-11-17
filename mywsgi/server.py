@@ -9,6 +9,7 @@ from http.server import (
 )
 from typing import Type
 
+from mywsgi.app import Application
 from mywsgi.base import HeadersType
 
 ENC, ESC = sys.getfilesystemencoding(), "surrogateescape"
@@ -102,12 +103,12 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
 class WSGIServer(BaseHTTPServer):
     """WSGI server."""
 
-    def __init__(self, host: str, port: int, app, handler: Type[WSGIRequestHandler]):
+    def __init__(self, host: str, port: int, app: Application, handler: Type[WSGIRequestHandler]):
         super(WSGIServer, self).__init__((host, port), handler)
         self.app = app
 
 
-def make_server(app, host: str, port: int) -> WSGIServer:
+def make_server(app: Application, host: str, port: int) -> WSGIServer:
     """Return WSGI server."""
     server = WSGIServer(host, port, app, WSGIRequestHandler)
     return server
