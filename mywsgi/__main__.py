@@ -17,9 +17,9 @@ LOGGER = logging.getLogger(__name__)
 
 @click.command()
 @click.argument("app_reference")
-@click.argument("host", default="localhost")
-@click.argument("port", default=8080, type=int)
-def main(app_reference="", host="", port=0):
+@click.argument("host")
+@click.argument("port", type=int)
+def main(app_reference: str, host: str, port: int):
     """Launch WSGI-server with application."""
     LOGGER.info("start mywsgi...")
 

@@ -11,20 +11,9 @@ from typing import Type
 
 from mywsgi.app import Application
 from mywsgi.base import HeadersType
-
-ENC, ESC = sys.getfilesystemencoding(), "surrogateescape"
+from mywsgi.util import unicode_to_wsgi, wsgi_to_bytes
 
 LOGGER = logging.getLogger(__name__)
-
-
-def unicode_to_wsgi(string):
-    """Convert an environment variable to a WSGI "bytes-as-unicode" string."""
-    return string.encode(ENC, ESC).decode("iso-8859-1")
-
-
-def wsgi_to_bytes(string):
-    """Convert string to bytes."""
-    return string.encode("iso-8859-1")
 
 
 def get_env() -> dict:
@@ -103,7 +92,7 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
 class WSGIServer(BaseHTTPServer):
     """WSGI server."""
 
-    def __init__(self, host: str, port: int, app: Application, handler: Type[WSGIRequestHandler]):
+    def __init__(self, host: str, port: int, app, handler: Type[WSGIRequestHandler]):
         super(WSGIServer, self).__init__((host, port), handler)
         self.app = app
 
