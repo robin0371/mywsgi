@@ -2,3 +2,8 @@ black
 click
 mypy
 pylint
+pytest
+pytest-cov
+pytest-mock
+pytest-sugar
+requests

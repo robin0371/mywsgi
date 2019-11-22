@@ -9,21 +9,11 @@ from http.server import (
 )
 from typing import Type
 
+from mywsgi.app import Application
 from mywsgi.base import HeadersType
-
-ENC, ESC = sys.getfilesystemencoding(), "surrogateescape"
+from mywsgi.util import unicode_to_wsgi, wsgi_to_bytes
 
 LOGGER = logging.getLogger(__name__)
-
-
-def unicode_to_wsgi(string):
-    """Convert an environment variable to a WSGI "bytes-as-unicode" string."""
-    return string.encode(ENC, ESC).decode("iso-8859-1")
-
-
-def wsgi_to_bytes(string):
-    """Convert string to bytes."""
-    return string.encode("iso-8859-1")
 
 
 def get_env() -> dict:
@@ -107,7 +97,7 @@ class WSGIServer(BaseHTTPServer):
         self.app = app
 
 
-def make_server(app, host: str, port: int) -> WSGIServer:
+def make_server(app: Application, host: str, port: int) -> WSGIServer:
     """Return WSGI server."""
     server = WSGIServer(host, port, app, WSGIRequestHandler)
     return server
