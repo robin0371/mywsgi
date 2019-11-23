@@ -6,4 +6,5 @@ pytest
 pytest-cov
 pytest-mock
 pytest-sugar
+parse
 requests
