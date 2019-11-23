@@ -1,8 +1,10 @@
 import contextlib
+from http import HTTPStatus
 
 import pytest
 import requests
 
+from mywsgi.response import Response
 from mywsgi.server import make_server
 
 
@@ -26,11 +28,20 @@ class TestMakeServer:
 
 
 class TestWSGIServer:
-
-    def test_ok(self, app, mywsgi_server):
+    def test_ok(self, app, mywsgi_server, mywsgi_addr):
         server = mywsgi_server(app)
-        response = requests.get("http://%s:%s" % server.server_address)
+
+        assert server.app is app
+        assert server.server_address == mywsgi_addr
+
+    def test_as_used_https(self, app, mywsgi_server, https_on):
+        @app.router.add("/test")
+        def handler(request):
+            return Response(b"test!", [("Content-Type", "text/plain")])
+
+        server = mywsgi_server(app)
+        response = requests.get("http://%s:%s/test" % server.server_address)
 
         assert response.ok is True
-        assert response.status_code == 200
-        assert response.text == "Hello!!"
+        assert response.status_code == HTTPStatus.OK
+        assert response.text == "test!"
