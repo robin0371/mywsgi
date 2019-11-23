@@ -19,7 +19,7 @@ LOGGER = logging.getLogger(__name__)
 @click.argument("app_reference")
 @click.argument("host")
 @click.argument("port", type=int)
-def main(app_reference: str, host: str, port: int):
+def main(app_reference: str = "", host: str = "", port: int = 0):
     """Launch WSGI-server with application."""
     LOGGER.info("start mywsgi...")
 
@@ -32,8 +32,10 @@ def main(app_reference: str, host: str, port: int):
 
         LOGGER.info("mywsgi start serving...")
         server.serve_forever()
-    except Exception:
-        LOGGER.exception("an error has occurred")
+    except (TypeError, ImportError):
+        LOGGER.exception("Application error has occurred")
+    except (KeyError, ValueError, OSError):
+        LOGGER.exception("Server error has occurred")
     finally:
         LOGGER.info("mywsgi stopped.")
 

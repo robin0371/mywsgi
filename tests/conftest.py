@@ -1,4 +1,5 @@
 import importlib
+import os
 import sys
 import threading
 
@@ -24,6 +25,14 @@ class WSGIServerWrapper:
 
         stop_threads = True  # noqa
         self.thread.join()
+
+
+@pytest.fixture
+def https_on():
+    """Turns on HTTPS env variable."""
+    os.environ["HTTPS"] = "on"
+    yield
+    del os.environ["HTTPS"]
 
 
 @pytest.fixture
