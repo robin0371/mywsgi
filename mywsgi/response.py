@@ -16,6 +16,6 @@ class Response:
         start_response(self.status, self.headers)
         return [self.body]
 
-    def add_content_length(self):
+    def add_content_length(self) -> None:
         """Calculate content length and add it to the headers."""
         self.headers.append(("Content-Length", str(len(self.body))))

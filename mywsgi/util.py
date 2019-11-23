@@ -1,3 +1,4 @@
+"""mywsgi utilities module."""
 import logging
 import sys
 
