@@ -3,6 +3,13 @@
 It is simple wsgi lib, just for experience.
 
 
+### Technology
+
+Python 3.6
+
+requests, parse, pytest, click
+
+
 ### Plan
 | # | Task | Estimate | Progress |
 | ------------ | ------------ | ------------ | ------------ |
@@ -13,8 +20,23 @@ It is simple wsgi lib, just for experience.
 | 5 | Implement application/framework side + tests | 8h | DONE |
 | 6 | Improve server side + tests | 3h | DONE |
 | 7 | Implement routing + tests | 5h | DONE |
-| 8 | Write documentation | 2h | TODO |
+| 8 | Write documentation | 2h | DONE |
 | 9 | Create demo application which use implemented wsgi | 3h | DONE |
+
+
+### Install
+
+    git clone git@github.com:robin0371/mywsgi.git
+    cd mywsgi
+    activate env
+    pip install -r requirements.txt
+
+
+### Tests
+
+    cd mywsgi
+    activate env
+    pytest  --mypy --mypy-ignore-missing-imports --cov=mywsgi/
 
 
 ### Demo application
