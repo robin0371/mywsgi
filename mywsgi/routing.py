@@ -15,7 +15,7 @@ class Router:
     def add(self, path: str) -> Callable:
         """Decorator for associate view with path."""
 
-        def wrap(view):
+        def wrap(view: Callable):
             self.views[path] = view
             return view
 
