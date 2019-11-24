@@ -1,10 +1,13 @@
 """mywsgi - application/framework module."""
 import importlib
+import logging
 
 from mywsgi.base import BodyType, EnvType, StartRespType
 from mywsgi.request import Request
 from mywsgi.response import Response
 from mywsgi.routing import Router
+
+LOGGER = logging.getLogger(__name__)
 
 
 class Application:
@@ -22,11 +25,14 @@ class Application:
 
     def handle_request(self, request: Request) -> Response:
         """Handle request."""
-        view, kwargs = self.router.find_view(request.env.get("QUERY_STRING"))
+        query = request.env.get("QUERY_STRING")
+        view, kwargs = self.router.find_view(query)
 
         if view:
+            LOGGER.info("view=%s kwargs=%s", repr(view), kwargs)
             response = view(request, **kwargs)
         else:
+            LOGGER.info("view associated with %s doesn't exist", query)
             response = Response(
                 b"Bad Request", [("Content-Type", "text/plain")], "400 Bad Request"
             )
