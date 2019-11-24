@@ -104,7 +104,7 @@ class WSGIRequestHandler(BaseHTTPRequestHandler):
 class WSGIServer(BaseHTTPServer):
     """WSGI server."""
 
-    def __init__(self, host: str, port: int, app, handler: Type[WSGIRequestHandler]):
+    def __init__(self, host: str, port: int, app: Application, handler: Type[WSGIRequestHandler]):
         super(WSGIServer, self).__init__((host, port), handler)
         self.app = app
 
