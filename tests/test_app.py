@@ -102,7 +102,7 @@ class TestRouting:
 
 
 class TestHeaders:
-    def test_ok(self, mocker, app, mywsgi_server):
+    def test_text_plain(self, mocker, app, mywsgi_server):
         mocker.patch(
             "mywsgi.server.BaseHTTPRequestHandler.date_time_string",
             return_value="Sat, 23 Nov 2019 17:42:54 GMT",
@@ -120,4 +120,25 @@ class TestHeaders:
         assert response.text == "test!"
         assert response.headers["content-type"] == "text/plain"
         assert response.headers["content-length"] == "5"
+        assert response.headers["date"] == "Sat, 23 Nov 2019 17:42:54 GMT"
+
+    def test_application_json(self, mocker, app, mywsgi_server):
+        mocker.patch(
+            "mywsgi.server.BaseHTTPRequestHandler.date_time_string",
+            return_value="Sat, 23 Nov 2019 17:42:54 GMT",
+        )
+
+        @app.router.add("/json/{param}")
+        def get_json(request, param):
+            return Response(wsgi_to_bytes('{"p": %s}' % param),
+                            [("Content-Type", "application/json")])
+
+        server = mywsgi_server(app)
+        response = requests.get("http://%s:%s/json/5" % server.server_address)
+
+        assert response.ok is True
+        assert response.status_code == HTTPStatus.OK
+        assert response.json() == {"p": 5}
+        assert response.headers["content-type"] == "application/json"
+        assert response.headers["content-length"] == "8"
         assert response.headers["date"] == "Sat, 23 Nov 2019 17:42:54 GMT"
